@@ -20,8 +20,8 @@
 ## X-Discord-Invite-Link: https://discord.gg/mdBFQJYeQZ
 ## X-Discord-Server-Name: Krowi's Addons
 ## X-CurseForge: https://www.curseforge.com/wow/addons/krowi-brokers
-## X-Curse-Project-ID: 
+## X-Curse-Project-ID: 1419700
 ## X-Wago: https://addons.wago.io/addons/krowi-brokers
-## X-Wago-ID: 
+## X-Wago-ID: XKq94wKy
 
 Krowi_Brokers-1.0.xml
