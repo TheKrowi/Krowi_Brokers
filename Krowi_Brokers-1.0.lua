@@ -68,9 +68,9 @@ end
 -- OnEvent handling
 
 local eventFrameOnEventHandlers = {}
-local function HelperFrameOnEvent(self, event, ...)
+local function HelperFrameOnEvent(_, event, ...)
 	for _, handler in next, eventFrameOnEventHandlers do
-		handler(self, event, ...)
+		handler(event, ...)
 	end
 end
 
@@ -93,7 +93,7 @@ end
 -- OnUpdate handling
 
 local onUpdateHandlers = {}
-local function HelperFrameOnUpdate(self, elapsed)
+local function HelperFrameOnUpdate(_, elapsed)
 	for _, handler in next, onUpdateHandlers do
 		handler(elapsed)
 	end
