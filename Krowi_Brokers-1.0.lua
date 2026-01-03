@@ -14,7 +14,7 @@
 
 ---@diagnostic disable: undefined-global
 
-local MAJOR, MINOR = "Krowi_Brokers-1.0", 1
+local MAJOR, MINOR = "Krowi_Brokers-1.0", 2
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then	return end
 
@@ -56,37 +56,53 @@ function lib:InitBroker(addonName, addon, icon, onEnter, onLeave, onClick, onEve
     end
 end
 
+function lib:GetHelperFrame()
+	if self.HelperFrame then
+		return self.HelperFrame
+	end
+
+	self.HelperFrame = CreateFrame("Frame", "Krowi_Brokers_HelperFrame")
+	return self.HelperFrame
+end
+
 -- OnEvent handling
 
 local eventFrameOnEventHandlers = {}
-local function EventFrameOnEvent(self, event, ...)
+local function HelperFrameOnEvent(self, event, ...)
 	for _, handler in next, eventFrameOnEventHandlers do
 		handler(self, event, ...)
 	end
 end
 
-function lib:CreateEventFrame()
-	self:GetEventFrame()
-end
-
-function lib:GetEventFrame()
-	if self.EventFrame then
-		return self.EventFrame
-	end
-
-	self.EventFrame = CreateFrame("Frame", "Krowi_Brokers_EventFrame")
-	self.EventFrame:SetScript("OnEvent", EventFrameOnEvent)
-	return self.EventFrame
-end
-
 function lib:RegisterEvents(...)
-	local eventFrame = self:GetEventFrame()
+	local helperFrame = self:GetHelperFrame()
 	for i = 1, select("#", ...) do
 		local event = select(i, ...)
-		eventFrame:RegisterEvent(event)
+		helperFrame:RegisterEvent(event)
 	end
 end
 
 function lib:RegisterOnEvent(handler)
 	tinsert(eventFrameOnEventHandlers, handler)
+	local helperFrame = self:GetHelperFrame()
+	if not helperFrame:GetScript("OnEvent") then
+		helperFrame:SetScript("OnEvent", HelperFrameOnEvent)
+	end
+end
+
+-- OnUpdate handling
+
+local onUpdateHandlers = {}
+local function HelperFrameOnUpdate(self, elapsed)
+	for _, handler in next, onUpdateHandlers do
+		handler(self, elapsed)
+	end
+end
+
+function lib:RegisterOnUpdate(handler)
+	tinsert(onUpdateHandlers, handler)
+	local helperFrame = self:GetHelperFrame()
+	if not helperFrame:GetScript("OnUpdate") then
+		helperFrame:SetScript("OnUpdate", HelperFrameOnUpdate)
+	end
 end
