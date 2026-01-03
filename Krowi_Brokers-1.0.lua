@@ -95,7 +95,7 @@ end
 local onUpdateHandlers = {}
 local function HelperFrameOnUpdate(self, elapsed)
 	for _, handler in next, onUpdateHandlers do
-		handler(self, elapsed)
+		handler(elapsed)
 	end
 end
 
