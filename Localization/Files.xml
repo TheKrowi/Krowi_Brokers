@@ -13,8 +13,6 @@
  -->
 
 <Ui>
-	<Include file="Localization\Files.xml"/>
-	<Script file="Krowi_Brokers-1.0.lua"/>
-	<Script file="Krowi_Brokers_ElvUIIntegration-1.0.lua"/>
-	<Script file="Krowi_Brokers_TitanIntegration-1.0.lua"/>
+	<Script file="Localization.lua"/>
+	<Script file="enUS.lua"/>
 </Ui>

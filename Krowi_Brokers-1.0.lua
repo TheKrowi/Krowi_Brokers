@@ -14,16 +14,21 @@
 
 ---@diagnostic disable: undefined-global
 
-local MAJOR, MINOR = "Krowi_Brokers-1.0", 2
+-- Define shared minor version for all Krowi_Brokers libraries
+KROWI_BROKERS_LIBRARY_MINOR = 3
+
+local MAJOR, MINOR = "Krowi_Brokers-1.0", KROWI_BROKERS_LIBRARY_MINOR
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then	return end
+
+local addonName, addon = ...;
 
 lib.MAJOR = MAJOR
 lib.MINOR = MINOR
 
 -- Init handling
 
-function lib:InitBroker(addonName, addon, icon, onEnter, onLeave, onClick, onEvent, getDisplayText, menu, tooltip)
+function lib:InitBroker(_addonName, _addon, icon, onEnter, onLeave, onClick, onEvent, getDisplayText, menu, tooltip)
     if menu then
         menu.Init()
     end
@@ -32,11 +37,11 @@ function lib:InitBroker(addonName, addon, icon, onEnter, onLeave, onClick, onEve
         tooltip.Init()
     end
 
-    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(addonName, {
+    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(_addonName, {
 		type = "data source",
-		tocname = addonName,
+		tocname = _addonName,
 		icon = icon,
-		text = addon.Metadata.Title .. " " .. addon.Metadata.Version,
+		text = _addon.Metadata.Title .. " " .. _addon.Metadata.Version,
 		category = "Information",
 		OnEnter = onEnter,
 		OnLeave = onLeave,
@@ -45,6 +50,39 @@ function lib:InitBroker(addonName, addon, icon, onEnter, onLeave, onClick, onEve
 
 	function dataObject:Update()
 		self.text = getDisplayText()
+	end
+
+	dataObject:Update()
+
+	_addon.LDB = dataObject
+
+    if onEvent then
+        self:RegisterOnEvent(onEvent)
+    end
+end
+
+function lib:InitBrokerSimple(onEnter, onLeave, onClick, onEvent)
+    if addon.Menu then
+        addon.Menu.Init()
+    end
+
+    if addon.Tooltip then
+        addon.Tooltip.Init()
+    end
+
+    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(addonName, {
+		type = "data source",
+		tocname = addonName,
+		icon = addon.Metadata.Icon,
+		text = addon.Metadata.Title .. " " .. addon.Metadata.Version,
+		category = "Information",
+		OnEnter = onEnter,
+		OnLeave = onLeave,
+		OnClick = onClick,
+	})
+
+	function dataObject:Update()
+		self.text = addon.GetDisplayText()
 	end
 
 	dataObject:Update()

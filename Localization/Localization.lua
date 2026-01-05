@@ -1,4 +1,4 @@
-<!--
+--[[
     Copyright (c) 2026 Krowi
 
     All Rights Reserved unless otherwise explicitly stated.
@@ -10,11 +10,14 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
- -->
+]]
 
-<Ui>
-	<Include file="Localization\Files.xml"/>
-	<Script file="Krowi_Brokers-1.0.lua"/>
-	<Script file="Krowi_Brokers_ElvUIIntegration-1.0.lua"/>
-	<Script file="Krowi_Brokers_TitanIntegration-1.0.lua"/>
-</Ui>
+---@diagnostic disable: undefined-global
+
+local addonName, addon = ...;
+addon.Localization = {};
+local localization = addon.Localization;
+
+function localization.GetDefaultLocale()
+    return LibStub("AceLocale-3.0"):NewLocale(addonName, "enUS", true, true);
+end

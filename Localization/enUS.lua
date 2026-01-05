@@ -1,4 +1,4 @@
-<!--
+--[[
     Copyright (c) 2026 Krowi
 
     All Rights Reserved unless otherwise explicitly stated.
@@ -10,11 +10,17 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
- -->
+]]
 
-<Ui>
-	<Include file="Localization\Files.xml"/>
-	<Script file="Krowi_Brokers-1.0.lua"/>
-	<Script file="Krowi_Brokers_ElvUIIntegration-1.0.lua"/>
-	<Script file="Krowi_Brokers_TitanIntegration-1.0.lua"/>
-</Ui>
+---@diagnostic disable: undefined-global
+
+local _, addon = ...;
+local L = addon.Localization.GetDefaultLocale();
+addon.L = L;
+
+-- [[ https://legacy.curseforge.com/wow/addons/krowi-brokers/localization ]] --
+-- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
+
+-- [[ Exported at 2026-01-02 11-03-56 ]] --
+L["ElvUI Options"] = true
+L["Titan Panel Options"] = true
