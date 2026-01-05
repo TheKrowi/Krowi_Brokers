@@ -28,40 +28,7 @@ lib.MINOR = MINOR
 
 -- Init handling
 
-function lib:InitBroker(_addonName, _addon, icon, onEnter, onLeave, onClick, onEvent, getDisplayText, menu, tooltip)
-    if menu then
-        menu.Init()
-    end
-
-    if tooltip then
-        tooltip.Init()
-    end
-
-    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(_addonName, {
-		type = "data source",
-		tocname = _addonName,
-		icon = icon,
-		text = _addon.Metadata.Title .. " " .. _addon.Metadata.Version,
-		category = "Information",
-		OnEnter = onEnter,
-		OnLeave = onLeave,
-		OnClick = onClick,
-	})
-
-	function dataObject:Update()
-		self.text = getDisplayText()
-	end
-
-	dataObject:Update()
-
-	_addon.LDB = dataObject
-
-    if onEvent then
-        self:RegisterOnEvent(onEvent)
-    end
-end
-
-function lib:InitBrokerSimple(onEnter, onLeave, onClick, onEvent)
+function lib:InitBroker(onEnter, onLeave, onClick, onEvent)
     if addon.Menu then
         addon.Menu.Init()
     end

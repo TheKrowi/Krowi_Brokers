@@ -66,11 +66,11 @@ end
 local function CreateElvUICheckbox(menuBuilder, parent, text, elvKey, onRefresh)
 	return menuBuilder:CreateCustomCheckbox(parent, text,
 		function()
-			local settings = GetElvUISettings(addonName)
+			local settings = GetElvUISettings()
 			return settings and settings[elvKey] or false
 		end,
 		function()
-			local settings = GetElvUISettings(addonName)
+			local settings = GetElvUISettings()
 			if not settings then
 				return
 			end
