@@ -16,22 +16,14 @@
 
 local lib = LibStub("Krowi_Brokers-1.0", true)
 if not lib then	return end
-if lib.Localization then return end
 
-lib.Localization = {};
-local localization = lib.Localization;
+local L = lib.Localization.GetLocale('deDE');
+if not L then return end
+lib.L = L;
 
-local localeIsLoaded, defaultLocale = {}, 'enUS';
-function localization.GetDefaultLocale()
-    if localeIsLoaded[defaultLocale] then return end
+-- [[ https://legacy.curseforge.com/wow/addons/krowi-currency/localization ]] --
+-- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
 
-    localeIsLoaded[defaultLocale] = true
-    return LibStub("AceLocale-3.0"):NewLocale("Krowi_Brokers-1.0", defaultLocale, true, true);
-end
-
-function localization.GetLocale(locale)
-    if localeIsLoaded[locale] then return end
-
-    localeIsLoaded[locale] = true
-    return LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", locale);
-end
+-- [[ Exported at 2026-01-02 11-03-56 ]] --
+L["ElvUI Options"] = true
+L["Titan Panel Options"] = "a fantastic test"

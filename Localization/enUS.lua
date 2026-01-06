@@ -16,9 +16,9 @@
 
 local lib = LibStub("Krowi_Brokers-1.0", true)
 if not lib then	return end
-if lib.L then return end
 
 local L = lib.Localization.GetDefaultLocale();
+if not L then return end
 lib.L = L;
 
 -- [[ https://legacy.curseforge.com/wow/addons/krowi-brokers/localization ]] --
@@ -26,4 +26,4 @@ lib.L = L;
 
 -- [[ Exported at 2026-01-02 11-03-56 ]] --
 L["ElvUI Options"] = true
-L["Titan Panel Options"] = "true"
+L["Titan Panel Options"] = "a simple test"

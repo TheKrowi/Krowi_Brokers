@@ -15,4 +15,5 @@
 <Ui>
 	<Script file="Localization.lua"/>
 	<Script file="enUS.lua"/>
+    <Script file="deDE.lua" />
 </Ui>
