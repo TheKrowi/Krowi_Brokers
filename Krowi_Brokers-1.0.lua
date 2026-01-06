@@ -23,6 +23,8 @@ if not lib then	return end
 function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
     if addon.Menu then
         addon.Menu.Init()
+		self:RegisterCreateElvUIOptionsMenu(addonName, addon)
+		self:RegisterCreateTitanOptionsMenu(addonName, addon)
     end
 
     if addon.Tooltip then

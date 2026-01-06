@@ -14,7 +14,7 @@
 
 <Ui>
 	<Include file="Localization\Files.xml"/>
-	<Script file="Krowi_Brokers.lua"/>
+	<Script file="Krowi_Brokers-1.0.lua"/>
 	<Script file="Integrations\ElvUI.lua"/>
 	<Script file="Integrations\Titan.lua"/>
 </Ui>

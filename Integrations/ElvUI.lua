@@ -76,7 +76,7 @@ local function CreateElvUICheckbox(menuBuilder, addonName, parent, text, elvKey,
 	)
 end
 
-function lib:CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+local function CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
 	if not IsElvUILoaded() or not IsElvUIFrame(caller) then
 		return
 	end
@@ -89,4 +89,10 @@ function lib:CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onR
 	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Label"], 'label', onRefresh)
 	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Text"], 'text', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, elvUIOptions)
+end
+
+function lib:RegisterCreateElvUIOptionsMenu(addonName, addon)
+	addon.Menu.CreateElvUIOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
+		CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+	end
 end

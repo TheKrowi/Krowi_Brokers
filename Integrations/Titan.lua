@@ -28,7 +28,6 @@ local function IsTitanFrame(caller)
 
 	while caller do
 		local name = caller:GetName()
-        print(name)
 		if name and (name:find('TitanPanel') or name:find(TITAN_PANEL_DISPLAY_PREFIX)) then
 			return true
 		end
@@ -68,7 +67,7 @@ local function CreateTitanCheckbox(menuBuilder, addonName, parent, text, titanKe
 	)
 end
 
-function lib:CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+local function CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
 	if not IsTitanLoaded() or not IsTitanFrame(caller) then
 		return
 	end
@@ -83,4 +82,10 @@ function lib:CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onR
 	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
 	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, titanOptions)
+end
+
+function lib:RegisterCreateTitanOptionsMenu(addonName, addon)
+	addon.Menu.CreateTitanOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
+		CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+	end
 end
