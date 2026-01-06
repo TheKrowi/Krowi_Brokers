@@ -33,5 +33,5 @@ function localization.GetLocale(locale)
     if localeIsLoaded[locale] then return end
 
     localeIsLoaded[locale] = true
-    return LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", locale);
+    return LibStub("AceLocale-3.0"):NewLocale("Krowi_Brokers-1.0", locale);
 end
