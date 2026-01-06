@@ -14,17 +14,8 @@
 
 ---@diagnostic disable: undefined-global
 
-local MAJOR, MINOR = "Krowi_Brokers_ElvUIIntegration-1.0", KROWI_BROKERS_LIBRARY_MINOR
-local lib = LibStub:NewLibrary(MAJOR, MINOR)
+local lib = LibStub("Krowi_Brokers-1.0", true)
 if not lib then	return end
-
-local addonName, addon = ...;
-addon.L = LibStub("AceLocale-3.0"):GetLocale(addonName);
-
-lib.MAJOR = MAJOR
-lib.MINOR = MINOR
-
--- Private Helper Functions
 
 local function GetElvUI()
 	return ElvUI and unpack(ElvUI)
@@ -38,7 +29,7 @@ local function GetElvUIDataTextsModule()
 	return GetElvUI():GetModule('DataTexts')
 end
 
-local function GetElvUISettings()
+local function GetElvUISettings(addonName)
 	return GetElvUI().global.datatexts.settings['LDB_' .. addonName]
 end
 
@@ -63,14 +54,14 @@ local function GetElvUILocalization()
 	return select(2, unpack(GetElvUI().Config))
 end
 
-local function CreateElvUICheckbox(menuBuilder, parent, text, elvKey, onRefresh)
+local function CreateElvUICheckbox(menuBuilder, addonName, parent, text, elvKey, onRefresh)
 	return menuBuilder:CreateCustomCheckbox(parent, text,
 		function()
-			local settings = GetElvUISettings()
+			local settings = GetElvUISettings(addonName)
 			return settings and settings[elvKey] or false
 		end,
 		function()
-			local settings = GetElvUISettings()
+			local settings = GetElvUISettings(addonName)
 			if not settings then
 				return
 			end
@@ -85,9 +76,7 @@ local function CreateElvUICheckbox(menuBuilder, parent, text, elvKey, onRefresh)
 	)
 end
 
--- Public API
-
-function lib.CreateElvUIMenu(menuBuilder, menuObj, caller, onRefresh)
+function lib:CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
 	if not IsElvUILoaded() or not IsElvUIFrame(caller) then
 		return
 	end
@@ -95,17 +84,9 @@ function lib.CreateElvUIMenu(menuBuilder, menuObj, caller, onRefresh)
 	local L = GetElvUILocalization()
 	menuBuilder:CreateDivider(menuObj)
 
-	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, addon.L['ElvUI Options'])
-	CreateElvUICheckbox(menuBuilder, elvUIOptions, L["Show Icon"], 'icon', onRefresh)
-	CreateElvUICheckbox(menuBuilder, elvUIOptions, L["Show Label"], 'label', onRefresh)
-	CreateElvUICheckbox(menuBuilder, elvUIOptions, L["Show Text"], 'text', onRefresh)
+	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, 'ElvUI Options')
+	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Icon"], 'icon', onRefresh)
+	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Label"], 'label', onRefresh)
+	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Text"], 'text', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, elvUIOptions)
-end
-
-function lib:ExtendMenuBuilder(menuBuilder)
-	if not menuBuilder or menuBuilder.CreateElvUIMenu then
-		return
-	end
-
-	menuBuilder.CreateElvUIMenu = lib.CreateElvUIMenu
 end

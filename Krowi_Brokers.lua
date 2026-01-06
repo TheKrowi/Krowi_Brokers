@@ -13,22 +13,14 @@
 ]]
 
 ---@diagnostic disable: undefined-global
-
--- Define shared minor version for all Krowi_Brokers libraries
-KROWI_BROKERS_LIBRARY_MINOR = 3
-
-local MAJOR, MINOR = "Krowi_Brokers-1.0", KROWI_BROKERS_LIBRARY_MINOR
+---@
+local MAJOR, MINOR = "Krowi_Brokers-1.0", 1
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then	return end
 
-local addonName, addon = ...;
-
-lib.MAJOR = MAJOR
-lib.MINOR = MINOR
-
 -- Init handling
 
-function lib:InitBroker(onEnter, onLeave, onClick, onEvent)
+function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
     if addon.Menu then
         addon.Menu.Init()
     end
