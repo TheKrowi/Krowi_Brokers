@@ -17,11 +17,11 @@
 local lib = LibStub("Krowi_Brokers-1.0", true)
 if not lib then	return end
 
-local function IsTitanLoaded()
+local function IsLoaded()
 	return TITAN_ID ~= nil
 end
 
-local function IsTitanFrame(caller)
+local function IsFrame(caller)
 	if not caller then
 		return false
 	end
@@ -37,11 +37,13 @@ local function IsTitanFrame(caller)
 	return false
 end
 
-local function GetTitanLocalization()
-	return LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+local function GetLocalizations()
+	return
+		LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", true),
+		LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 end
 
-local function CreateTitanCheckbox(menuBuilder, addonName, parent, text, titanKey, onRefresh)
+local function CreateCheckbox(menuBuilder, addonName, parent, text, titanKey, onRefresh)
 	return menuBuilder:CreateCustomCheckbox(parent, text,
 		function()
 			local value = TitanGetVar(addonName, titanKey)
@@ -67,25 +69,25 @@ local function CreateTitanCheckbox(menuBuilder, addonName, parent, text, titanKe
 	)
 end
 
-local function CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
-	if not IsTitanLoaded() or not IsTitanFrame(caller) then
+local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+	if not IsLoaded() or not IsFrame(caller) then
 		return
 	end
 
-	local L = GetTitanLocalization()
+	local L, IL = GetLocalizations()
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, lib.L["Titan Panel Options"])
-	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
-	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
-	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
-	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
+	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, L["Titan Panel Options"])
+	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, titanOptions)
 end
 
 function lib:RegisterCreateTitanOptionsMenu(addonName, addon)
 	addon.Menu.CreateTitanOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
-		CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
+		CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
 	end
 end
