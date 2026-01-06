@@ -14,9 +14,12 @@
 
 ---@diagnostic disable: undefined-global
 
-local _, addon = ...;
-local L = addon.Localization.GetDefaultLocale();
-addon.L = L;
+local lib = LibStub("Krowi_Brokers-1.0", true)
+if not lib then	return end
+if lib.L then return end
+
+local L = lib.Localization.GetDefaultLocale();
+lib.L = L;
 
 -- [[ https://legacy.curseforge.com/wow/addons/krowi-brokers/localization ]] --
 -- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
