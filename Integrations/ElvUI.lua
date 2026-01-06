@@ -93,6 +93,6 @@ end
 
 function lib:RegisterCreateElvUIOptionsMenu(addonName, addon)
 	addon.Menu.CreateElvUIOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
-		CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+		CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
 	end
 end

@@ -86,6 +86,6 @@ end
 
 function lib:RegisterCreateTitanOptionsMenu(addonName, addon)
 	addon.Menu.CreateTitanOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
-		CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+		CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
 	end
 end
