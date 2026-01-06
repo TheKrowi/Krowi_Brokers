@@ -14,7 +14,7 @@
 
 ---@diagnostic disable: undefined-global
 ---@
-local MAJOR, MINOR = "Krowi_Brokers-1.0", 1
+local MAJOR, MINOR = "Krowi_Brokers-1.0", 4
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then	return end
 

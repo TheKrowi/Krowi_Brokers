@@ -1,13 +1,7 @@
-### Added (1.0.3)
-- `ExtendMenuBuilder()` method for both ElvUI and Titan Panel integration libraries
-- ElvUI integration module (`Krowi_Brokers_ElvUIIntegration-1.0`) with menu options
-- Titan Panel integration module (`Krowi_Brokers_TitanIntegration-1.0`) with menu options
-- Localization system with AceLocale-3.0 support
-- `CreateElvUIMenu()` helper function for ElvUI-specific menu options
-- `CreateTitanMenu()` helper function for Titan Panel-specific menu options
-- Shared `KROWI_BROKERS_LIBRARY_MINOR` global for version consistency across modules
-
-### Changed (1.0.3)
-- Event handlers no longer receive `self` parameter - signatures changed to `(event, ...)` instead of `(self, event, ...)`
-- Update handlers no longer receive `self` parameter - signatures changed to `(elapsed)` instead of `(self, elapsed)`
-- `InitBroker()` now uses global `addonName` and `addon` variables from the addon namespace
+### Changed (1.0.4)
+- Moved ElvUI and Titan Panel integration files to `Integrations/` folder
+- Renamed integration files from `Krowi_Brokers_ElvUIIntegration.lua` and `Krowi_Brokers_TitanIntegration.lua` to `ElvUI.lua` and `Titan.lua`
+- Refactored integration modules to use local functions and register menu creation methods on the main library
+- Updated `InitBroker()` to automatically register ElvUI and Titan Panel options menu creation
+- Changed integration API: `ExtendMenuBuilder()` replaced with module-specific extension methods (`ExtendMenuBuilderWithElvUIOptions()` and `ExtendMenuBuilderWithTitanOptions()`)
+- Integration menu creation now requires passing `addonName` parameter to support multiple addons using the library

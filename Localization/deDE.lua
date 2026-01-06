@@ -21,9 +21,9 @@ local L = lib.Localization.GetLocale('deDE');
 if not L then return end
 lib.L = L;
 
--- [[ https://legacy.curseforge.com/wow/addons/krowi-currency/localization ]] --
+-- [[ https://legacy.curseforge.com/wow/addons/krowi-brokers/localization ]] --
 -- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
 
 -- [[ Exported at 2026-01-02 11-03-56 ]] --
-L["ElvUI Options"] = true
-L["Titan Panel Options"] = "a fantastic test"
+L["ElvUI Options"] = "ElvUI Optionen"
+L["Titan Panel Options"] = "Titan Panel Optionen"

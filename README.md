@@ -17,16 +17,16 @@ A lightweight library for World of Warcraft addon development that simplifies cr
 - **Multiple Handlers**: Support for multiple event handlers on the same event frame
 - **LibStub Support**: Standard LibStub library structure for dependency management
 
-### ElvUI Integration (`Krowi_Brokers_ElvUIIntegration-1.0`)
+### ElvUI Integration (`Krowi_Brokers-1.0` - ElvUI Module)
 - **Automatic Detection**: Detects ElvUI presence and provides integration options
-- **Menu Builder Extension**: Extends MenuBuilder with `CreateElvUIMenu()` method
+- **Automatic Registration**: ElvUI options menu is automatically registered when calling `InitBroker()`
 - **Display Options**: Toggle icon, label, and text visibility for ElvUI DataTexts
 - **Settings Sync**: Integrates with ElvUI's DataText settings system
 - **Auto-Refresh**: Automatically refreshes display when settings change
 
-### Titan Panel Integration (`Krowi_Brokers_TitanIntegration-1.0`)
+### Titan Panel Integration (`Krowi_Brokers-1.0` - Titan Module)
 - **Automatic Detection**: Detects Titan Panel presence and provides integration options
-- **Menu Builder Extension**: Extends MenuBuilder with `CreateTitanMenu()` method
+- **Automatic Registration**: Titan Panel options menu is automatically registered when calling `InitBroker()`
 - **Display Options**: Toggle icon, label, text, and side positioning for Titan Panel plugins
 - **Settings Sync**: Integrates with Titan Panel's plugin settings system
 - **Auto-Refresh**: Automatically refreshes display when settings change
@@ -156,23 +156,21 @@ end)
 ### ElvUI Integration Example
 
 ```lua
+local addonName, addon = ...
 local broker = LibStub("Krowi_Brokers-1.0")
-local elvUIIntegration = LibStub("Krowi_Brokers_ElvUIIntegration-1.0")
-local menuBuilder = LibStub("Krowi_MenuBuilder-1.0"):New(config)
 
--- Extend MenuBuilder with ElvUI support
-elvUIIntegration:ExtendMenuBuilder(menuBuilder)
+-- ElvUI integration is automatically set up when you call InitBroker()
+-- The CreateElvUIOptionsMenu function is added to addon.Menu automatically
 
 -- In your menu creation function
-function menuBuilder:CreateMenu()
-    local menu = self:GetMenu()
-    
+function addon.Menu.Create(menuBuilder, menuObj, caller)
     -- Your regular menu items
-    self:CreateTitle(menu, "My Addon Options")
+    menuBuilder:CreateTitle(menuObj, "My Addon Options")
     -- ... more menu items ...
     
-    -- Add ElvUI options if ElvUI is detected
-    self:CreateElvUIMenu(menu, caller, function()
+    -- Call the ElvUI options menu creator (automatically available after InitBroker)
+    -- This will add ElvUI options only if ElvUI is detected and caller is an ElvUI frame
+    addon.Menu.CreateElvUIOptionsMenu(menuBuilder, menuObj, caller, function()
         -- Optional refresh callback
         print("ElvUI settings changed")
     end)
@@ -182,23 +180,21 @@ end
 ### Titan Panel Integration Example
 
 ```lua
+local addonName, addon = ...
 local broker = LibStub("Krowi_Brokers-1.0")
-local titanIntegration = LibStub("Krowi_Brokers_TitanIntegration-1.0")
-local menuBuilder = LibStub("Krowi_MenuBuilder-1.0"):New(config)
 
--- Extend MenuBuilder with Titan Panel support
-titanIntegration:ExtendMenuBuilder(menuBuilder)
+-- Titan Panel integration is automatically set up when you call InitBroker()
+-- The CreateTitanOptionsMenu function is added to addon.Menu automatically
 
 -- In your menu creation function
-function menuBuilder:CreateMenu()
-    local menu = self:GetMenu()
-    
+function addon.Menu.Create(menuBuilder, menuObj, caller)
     -- Your regular menu items
-    self:CreateTitle(menu, "My Addon Options")
+    menuBuilder:CreateTitle(menuObj, "My Addon Options")
     -- ... more menu items ...
     
-    -- Add Titan Panel options if Titan Panel is detected
-    self:CreateTitanMenu(menu, caller, function()
+    -- Call the Titan Panel options menu creator (automatically available after InitBroker)
+    -- This will add Titan Panel options only if Titan Panel is detected and caller is a Titan Panel frame
+    addon.Menu.CreateTitanOptionsMenu(menuBuilder, menuObj, caller, function()
         -- Optional refresh callback
         print("Titan Panel settings changed")
     end)
@@ -223,6 +219,8 @@ local broker = LibStub("Krowi_Brokers-1.0")
 | `RegisterEvents(...)` | `...` (strings) | Registers one or more WoW events to the helper frame |
 | `RegisterOnEvent(handler)` | `handler` (function) | Adds an event handler function that will be called for all registered events |
 | `RegisterOnUpdate(handler)` | `handler` (function) | Adds an OnUpdate handler function that will be called every frame |
+| `RegisterCreateElvUIOptionsMenu(addonName, addon)` | `addonName` (string), `addon` (table) | Registers ElvUI options menu creation (called automatically by `InitBroker`) |
+| `RegisterCreateTitanOptionsMenu(addonName, addon)` | `addonName` (string), `addon` (table) | Registers Titan Panel options menu creation (called automatically by `InitBroker`) |
 
 #### InitBroker() Parameters
 
@@ -280,16 +278,22 @@ After calling `InitBroker`, the LibDataBroker data object is stored at `addon.LD
 | `OnClick` | function | Click callback |
 | `Update()` | method | Call this to update the display text using `getDisplayText()` |
 
-### Krowi_Brokers_ElvUIIntegration-1.0
+### ElvUI Integration (v1.0.4+)
 
-#### ElvUI Integration Functions
+ElvUI integration is now built into the main `Krowi_Brokers-1.0` library and automatically registered when calling `InitBroker()` if your addon has a Menu system.
 
-| Function | Parameters | Description |
-|----------|------------|-------------|
-| `ExtendMenuBuilder(menuBuilder)` | `menuBuilder` (MenuBuilder) | Adds `CreateElvUIMenu` method to the MenuBuilder instance |
-| `CreateElvUIMenu(menuBuilder, menuObj, caller, onRefresh)` | See below | Creates ElvUI-specific menu options (added to menuBuilder) |
+When `InitBroker()` is called, it automatically adds a `CreateElvUIOptionsMenu` function to `addon.Menu`. You can call this function from within your menu creation code.
 
-#### CreateElvUIMenu() Parameters
+#### addon.Menu.CreateElvUIOptionsMenu()
+
+This function is automatically added to your addon's Menu table by `InitBroker()`.
+
+**Function Signature:**
+```lua
+addon.Menu.CreateElvUIOptionsMenu(menuBuilder, menuObj, caller, onRefresh)
+```
+
+**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -298,18 +302,24 @@ After calling `InitBroker`, the LibDataBroker data object is stored at `addon.LD
 | `caller` | frame | Yes | The calling frame (used to detect if ElvUI is the caller) |
 | `onRefresh` | function | No | Optional callback function called when settings change |
 
-**Note**: This function only adds menu items if ElvUI is loaded and the caller is an ElvUI frame.
+**Note**: This method only adds menu items if ElvUI is loaded and the caller is an ElvUI frame.
 
-### Krowi_Brokers_TitanIntegration-1.0
+### Titan Panel Integration (v1.0.4+)
 
-#### Titan Panel Integration Functions
+Titan Panel integration is now built into the main `Krowi_Brokers-1.0` library and automatically registered when calling `InitBroker()` if your addon has a Menu system.
 
-| Function | Parameters | Description |
-|----------|------------|-------------|
-| `ExtendMenuBuilder(menuBuilder)` | `menuBuilder` (MenuBuilder) | Adds `CreateTitanMenu` method to the MenuBuilder instance |
-| `CreateTitanMenu(menuBuilder, menuObj, caller, onRefresh)` | See below | Creates Titan Panel-specific menu options (added to menuBuilder) |
+When `InitBroker()` is called, it automatically adds a `CreateTitanOptionsMenu` function to `addon.Menu`. You can call this function from within your menu creation code.
 
-#### CreateTitanMenu() Parameters
+#### addon.Menu.CreateTitanOptionsMenu()
+
+This function is automatically added to your addon's Menu table by `InitBroker()`.
+
+**Function Signature:**
+```lua
+addon.Menu.CreateTitanOptionsMenu(menuBuilder, menuObj, caller, onRefresh)
+```
+
+**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -318,7 +328,7 @@ After calling `InitBroker`, the LibDataBroker data object is stored at `addon.LD
 | `caller` | frame | Yes | The calling frame (used to detect if Titan Panel is the caller) |
 | `onRefresh` | function | No | Optional callback function called when settings change |
 
-**Note**: This function only adds menu items if Titan Panel is loaded and the caller is a Titan Panel frame.
+**Note**: This method only adds menu items if Titan Panel is loaded and the caller is a Titan Panel frame.
 
 ## Use Cases
 - Creating LibDataBroker plugins for broker addons like Bazooka, ChocolateBar, ElvUI, Titan Panel
