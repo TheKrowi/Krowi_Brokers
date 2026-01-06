@@ -76,7 +76,7 @@ local function CreateTitanOptionsMenu(menuBuilder, menuObj, addonName, caller, o
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, 'Titan Panel Options')
+	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, lib.L["Titan Panel Options"])
 	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
 	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
 	CreateTitanCheckbox(menuBuilder, addonName, titanOptions, L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)

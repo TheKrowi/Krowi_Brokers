@@ -26,4 +26,4 @@ lib.L = L;
 
 -- [[ Exported at 2026-01-02 11-03-56 ]] --
 L["ElvUI Options"] = true
-L["Titan Panel Options"] = true
+L["Titan Panel Options"] = "true"
