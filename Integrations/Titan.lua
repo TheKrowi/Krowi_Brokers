@@ -37,22 +37,25 @@ local function IsFrame(caller)
 	return false
 end
 
-local function GetLocalizations()
-	return
-		LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", true),
-		LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+local localeCache, integrationLocaleCache
+local function GetLocales()
+	if not localeCache or not integrationLocaleCache then
+		localeCache = LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", true)
+		integrationLocaleCache = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+	end
+	return localeCache, integrationLocaleCache
 end
 
-local function CreateCheckbox(menuBuilder, addonName, parent, text, titanKey, onRefresh)
+local function CreateCheckbox(menuBuilder, addonName, parent, text, key, onRefresh)
 	return menuBuilder:CreateCustomCheckbox(parent, text,
 		function()
-			local value = TitanGetVar(addonName, titanKey)
+			local value = TitanGetVar(addonName, key)
 			return value == 1 or value == true
 		end,
 		function()
-            TitanToggleVar(addonName, titanKey)
+            TitanToggleVar(addonName, key)
 
-            if titanKey == "DisplayOnRightSide" then
+            if key == "DisplayOnRightSide" then
                 local bar = TitanUtils_GetWhichBar(addonName)
                 if bar then
                     TitanPanel_RemoveButton(addonName)
@@ -74,7 +77,7 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 		return
 	end
 
-	local L, IL = GetLocalizations()
+	local L, IL = GetLocales()
 
 	menuBuilder:CreateDivider(menuObj)
 

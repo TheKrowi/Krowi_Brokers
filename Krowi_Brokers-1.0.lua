@@ -13,12 +13,10 @@
 ]]
 
 ---@diagnostic disable: undefined-global
----@
+
 local MAJOR, MINOR = "Krowi_Brokers-1.0", 4
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then	return end
-
--- Init handling
 
 function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
     if addon.Menu then
@@ -64,8 +62,6 @@ function lib:GetHelperFrame()
 	return self.HelperFrame
 end
 
--- OnEvent handling
-
 local eventFrameOnEventHandlers = {}
 local function HelperFrameOnEvent(_, event, ...)
 	for _, handler in next, eventFrameOnEventHandlers do
@@ -88,8 +84,6 @@ function lib:RegisterOnEvent(handler)
 		helperFrame:SetScript("OnEvent", HelperFrameOnEvent)
 	end
 end
-
--- OnUpdate handling
 
 local onUpdateHandlers = {}
 local function HelperFrameOnUpdate(_, elapsed)

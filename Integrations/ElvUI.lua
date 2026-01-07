@@ -21,19 +21,19 @@ local function GetElvUI()
 	return ElvUI and unpack(ElvUI)
 end
 
-local function IsElvUILoaded()
+local function IsLoaded()
 	return ElvUI ~= nil
 end
 
-local function GetElvUIDataTextsModule()
+local function GetDataTextsModule()
 	return GetElvUI():GetModule('DataTexts')
 end
 
-local function GetElvUISettings(addonName)
+local function GetSettings(addonName)
 	return GetElvUI().global.datatexts.settings['LDB_' .. addonName]
 end
 
-local function IsElvUIFrame(caller)
+local function IsFrame(caller)
 	if not caller then
 		return false
 	end
@@ -49,25 +49,30 @@ local function IsElvUIFrame(caller)
 	return false
 end
 
-local function GetElvUILocalization()
-    C_AddOns.LoadAddOn("ElvUI_Options")
-	return select(2, unpack(GetElvUI().Config))
+local localeCache, integrationLocaleCache
+local function GetLocales()
+	if not localeCache or not integrationLocaleCache then
+		localeCache = LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", true)
+		C_AddOns.LoadAddOn("ElvUI_Options")
+		integrationLocaleCache = select(2, unpack(GetElvUI().Config))
+	end
+	return localeCache, integrationLocaleCache
 end
 
-local function CreateElvUICheckbox(menuBuilder, addonName, parent, text, elvKey, onRefresh)
+local function CreateCheckbox(menuBuilder, addonName, parent, text, key, onRefresh)
 	return menuBuilder:CreateCustomCheckbox(parent, text,
 		function()
-			local settings = GetElvUISettings(addonName)
-			return settings and settings[elvKey] or false
+			local settings = GetSettings(addonName)
+			return settings and settings[key] or false
 		end,
 		function()
-			local settings = GetElvUISettings(addonName)
+			local settings = GetSettings(addonName)
 			if not settings then
 				return
 			end
 
-			settings[elvKey] = not settings[elvKey]
-			GetElvUIDataTextsModule():ForceUpdate_DataText('LDB_' .. addonName)
+			settings[key] = not settings[key]
+			GetDataTextsModule():ForceUpdate_DataText('LDB_' .. addonName)
 
 			if onRefresh then
 				onRefresh()
@@ -76,23 +81,24 @@ local function CreateElvUICheckbox(menuBuilder, addonName, parent, text, elvKey,
 	)
 end
 
-local function CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
-	if not IsElvUILoaded() or not IsElvUIFrame(caller) then
+local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh)
+	if not IsLoaded() or not IsFrame(caller) then
 		return
 	end
 
-	local L = GetElvUILocalization()
+	local L, IL = GetLocales()
+
 	menuBuilder:CreateDivider(menuObj)
 
-	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, 'ElvUI Options')
-	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Icon"], 'icon', onRefresh)
-	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Label"], 'label', onRefresh)
-	CreateElvUICheckbox(menuBuilder, addonName, elvUIOptions, L["Show Text"], 'text', onRefresh)
+	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, L["ElvUI Options"])
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, IL["Show Icon"], 'icon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, IL["Show Label"], 'label', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, IL["Show Text"], 'text', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, elvUIOptions)
 end
 
 function lib:RegisterCreateElvUIOptionsMenu(addonName, addon)
 	addon.Menu.CreateElvUIOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
-		CreateElvUIOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
+		CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
 	end
 end

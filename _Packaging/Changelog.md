@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.0.5 - 2026-01-07
+### Changed
+- Refactored ElvUI integration module: simplified function naming (removed redundant prefixes)
+- Refactored Titan Panel integration module: simplified function naming and improved consistency
+- Improved localization caching for both integration modules to avoid repeated lookups
+- Code style improvements: removed semicolons from Lua files for consistency
+
+### Fixed
+- Fixed integration modules to properly cache both library localization and integration-specific localization
+- Removed incomplete annotation comment from main library file
+
 ## 1.0.4 - 2026-01-06
 ### Changed
 - Moved ElvUI and Titan Panel integration files to `Integrations/` folder
