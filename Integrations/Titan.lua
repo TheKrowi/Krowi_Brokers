@@ -86,6 +86,10 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
 	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
 	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
+	menuBuilder:CreateDivider(titanOptions)
+	menuBuilder:CreateButton(titanOptions, IL["TITAN_PANEL_MENU_HIDE"], function()
+		TitanPanelRightClickMenu_Hide(addonName)
+	end)
 	menuBuilder:AddChildMenu(menuObj, titanOptions)
 end
 

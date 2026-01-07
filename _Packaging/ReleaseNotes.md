@@ -1,7 +1,10 @@
-### Changed (1.0.4)
-- Moved ElvUI and Titan Panel integration files to `Integrations/` folder
-- Renamed integration files from `Krowi_Brokers_ElvUIIntegration.lua` and `Krowi_Brokers_TitanIntegration.lua` to `ElvUI.lua` and `Titan.lua`
-- Refactored integration modules to use local functions and register menu creation methods on the main library
-- Updated `InitBroker()` to automatically register ElvUI and Titan Panel options menu creation
-- Changed integration API: `ExtendMenuBuilder()` replaced with module-specific extension methods (`ExtendMenuBuilderWithElvUIOptions()` and `ExtendMenuBuilderWithTitanOptions()`)
-- Integration menu creation now requires passing `addonName` parameter to support multiple addons using the library
+### Changed (1.0.5)
+- Refactored ElvUI integration module: simplified function naming (removed redundant prefixes)
+- Refactored Titan Panel integration module: simplified function naming and improved consistency
+- Titan Panel integration module now also adds a hide button to the options
+- Improved localization caching for both integration modules to avoid repeated lookups
+- Code style improvements: removed semicolons from Lua files for consistency
+
+### Fixed (1.0.5)
+- Fixed integration modules to properly cache both library localization and integration-specific localization
+- Removed incomplete annotation comment from main library file

@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Refactored ElvUI integration module: simplified function naming (removed redundant prefixes)
 - Refactored Titan Panel integration module: simplified function naming and improved consistency
+- Titan Panel integration module now also adds a hide button to the options
 - Improved localization caching for both integration modules to avoid repeated lookups
 - Code style improvements: removed semicolons from Lua files for consistency
 
