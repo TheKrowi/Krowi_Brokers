@@ -12,9 +12,9 @@
 #    SOFTWARE.
 #
 
-## Interface: 110207, 50503, 11508
+## Interface: 120000, 110207, 50503, 20505, 20504, 20503, 20502, 20501, 11508
 ## Title: Krowi's |cFF1D92C2Brokers|r
-## Version: 1.0.5
+## Version: 1.0.6
 ## Author: Krowi
 ## Notes: A lightweight library for initializing LibDataBroker data sources with integrated event handling and custom callbacks
 ## X-Discord-Invite-Link: https://discord.gg/mdBFQJYeQZ

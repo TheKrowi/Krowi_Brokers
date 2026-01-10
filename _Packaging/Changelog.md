@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.0.6 - 2026-01-10
+### Added
+- Support for WoW 12.0.0 (Midnight)
+
+### Changed
+- Improved localization handling
+
+### TBC Classic
+- Support added
+
 ## 1.0.5 - 2026-01-07
 ### Changed
 - Refactored ElvUI integration module: simplified function naming (removed redundant prefixes)

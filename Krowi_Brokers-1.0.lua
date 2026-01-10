@@ -1,22 +1,16 @@
 --[[
     Copyright (c) 2026 Krowi
-
-    All Rights Reserved unless otherwise explicitly stated.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+    Licensed under the terms of the LICENSE file in this repository.
 ]]
 
 ---@diagnostic disable: undefined-global
 
-local MAJOR, MINOR = "Krowi_Brokers-1.0", 4
-local lib = LibStub:NewLibrary(MAJOR, MINOR)
+KROWI_BROKERS_MAJOR, KROWI_BROKERS_MINOR = "Krowi_Brokers-1.0", 6
+KROWI_LIB_CURRENT = KROWI_BROKERS_MAJOR
+
+local lib = LibStub:NewLibrary(KROWI_LIB_CURRENT, KROWI_BROKERS_MINOR)
 if not lib then	return end
+lib.Major = KROWI_LIB_CURRENT
 
 function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
     if addon.Menu then

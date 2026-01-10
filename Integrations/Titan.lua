@@ -1,20 +1,11 @@
 --[[
     Copyright (c) 2026 Krowi
-
-    All Rights Reserved unless otherwise explicitly stated.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+    Licensed under the terms of the LICENSE file in this repository.
 ]]
 
 ---@diagnostic disable: undefined-global
 
-local lib = LibStub("Krowi_Brokers-1.0", true)
+local lib = LibStub(KROWI_LIB_CURRENT)
 if not lib then	return end
 
 local function IsLoaded()
@@ -37,13 +28,10 @@ local function IsFrame(caller)
 	return false
 end
 
-local localeCache, integrationLocaleCache
-local function GetLocales()
-	if not localeCache or not integrationLocaleCache then
-		localeCache = LibStub("AceLocale-3.0"):GetLocale("Krowi_Brokers-1.0", true)
-		integrationLocaleCache = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+local function LoadIntegrationLocale()
+	if not lib.IL then
+		lib.IL = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 	end
-	return localeCache, integrationLocaleCache
 end
 
 local function CreateCheckbox(menuBuilder, addonName, parent, text, key, onRefresh)
@@ -77,17 +65,17 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 		return
 	end
 
-	local L, IL = GetLocales()
+	LoadIntegrationLocale()
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, L["Titan Panel Options"])
-	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, IL["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
+	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, lib.L["Titan Panel Options"])
+	CreateCheckbox(menuBuilder, addonName, titanOptions, lib.IL["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, lib.IL["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, lib.IL["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, lib.IL["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
 	menuBuilder:CreateDivider(titanOptions)
-	menuBuilder:CreateButton(titanOptions, IL["TITAN_PANEL_MENU_HIDE"], function()
+	menuBuilder:CreateButton(titanOptions, lib.IL["TITAN_PANEL_MENU_HIDE"], function()
 		TitanPanelRightClickMenu_Hide(addonName)
 	end)
 	menuBuilder:AddChildMenu(menuObj, titanOptions)
