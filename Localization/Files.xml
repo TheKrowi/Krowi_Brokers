@@ -4,8 +4,7 @@
  -->
 
 <Ui>
-	<Script file="PreLocalization.lua"/>
 	<Script file="enUS.lua"/>
     <Script file="deDE.lua" />
-    <Script file='PostLocalization.lua' />
+    <Script file='Shared.lua' />
 </Ui>

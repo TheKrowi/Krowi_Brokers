@@ -4,8 +4,7 @@
  -->
 
 <Ui>
-	<Include file="Krowi_Globals\Files.xml"/>
-	<Script file="Krowi_Brokers-1.0.lua"/>
+	<Script file="Krowi_Brokers.lua"/>
 	<Script file="Integrations\ElvUI.lua"/>
 	<Script file="Integrations\Titan.lua"/>
 	<Include file="Localization\Files.xml"/>

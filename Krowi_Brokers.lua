@@ -5,12 +5,11 @@
 
 ---@diagnostic disable: undefined-global
 
-KROWI_BROKERS_MAJOR, KROWI_BROKERS_MINOR = "Krowi_Brokers-1.0", 6
-KROWI_LIB_CURRENT = KROWI_BROKERS_MAJOR
-
-local lib = LibStub:NewLibrary(KROWI_LIB_CURRENT, KROWI_BROKERS_MINOR)
+local lib = KROWI_LIBMAN:NewLibrary('Krowi_Brokers_2', 0, {
+    SetCurrent = true,
+    InitLocalization = true,
+})
 if not lib then	return end
-lib.Major = KROWI_LIB_CURRENT
 
 function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
     if addon.Menu then
@@ -35,7 +34,7 @@ function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
 	})
 
 	function dataObject:Update()
-		self.text = addon.GetDisplayText()
+		self.text = addon:GetDisplayText()
 	end
 
 	dataObject:Update()

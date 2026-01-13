@@ -5,14 +5,12 @@
 
 ---@diagnostic disable: undefined-global
 
-local lib = LibStub(KROWI_LIB_CURRENT)
+local lib = KROWI_LIBMAN:GetCurrentLibrary(true)
 if not lib then	return end
 
 local L = lib.Localization.NewDefaultLocale()
 if not L then return end
-lib.L = L
 
--- [[ https://legacy.curseforge.com/wow/addons/krowi-brokers/localization ]] --
 -- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
 
 -- [[ Exported at 2026-01-06 22-46-09 ]] --

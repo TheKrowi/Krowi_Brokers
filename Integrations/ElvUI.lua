@@ -5,8 +5,8 @@
 
 ---@diagnostic disable: undefined-global
 
-local lib = LibStub(KROWI_LIB_CURRENT)
-if not lib then	return end
+local sub, parent = KROWI_LIBMAN:NewSubmodule('ElvUI', 0)
+if not sub or not parent then return end
 
 local function GetElvUI()
 	return ElvUI and unpack(ElvUI)
@@ -41,14 +41,14 @@ local function IsFrame(caller)
 end
 
 local function LoadIntegrationLocale()
-	if not lib.IL then
+	if not sub.IL then
 		C_AddOns.LoadAddOn("ElvUI_Options")
-		lib.IL = select(2, unpack(GetElvUI().Config))
+		sub.IL = select(2, unpack(GetElvUI().Config))
 	end
 end
 
-local function CreateCheckbox(menuBuilder, addonName, parent, text, key, onRefresh)
-	return menuBuilder:CreateCustomCheckbox(parent, text,
+local function CreateCheckbox(menuBuilder, addonName, _parent, text, key, onRefresh)
+	return menuBuilder:CreateCustomCheckbox(_parent, text,
 		function()
 			local settings = GetSettings(addonName)
 			return settings and settings[key] or false
@@ -78,14 +78,14 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, lib.L["ElvUI Options"])
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, lib.IL["Show Icon"], 'icon', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, lib.IL["Show Label"], 'label', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, lib.IL["Show Text"], 'text', onRefresh)
+	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, parent.L["ElvUI Options"])
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Icon"], 'icon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Label"], 'label', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Text"], 'text', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, elvUIOptions)
 end
 
-function lib:RegisterCreateElvUIOptionsMenu(addonName, addon)
+function parent:RegisterCreateElvUIOptionsMenu(addonName, addon)
 	addon.Menu.CreateElvUIOptionsMenu = function(menuBuilder, menuObj, caller, onRefresh)
 		CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefresh or addon.Menu.RefreshBroker)
 	end
