@@ -1,4 +1,4 @@
-![Retail](https://img.shields.io/badge/Retail-11.2.7-008833?style=for-the-badge) ![Mists](https://img.shields.io/badge/Mists-5.5.3-28ae7e?style=for-the-badge) ![Classic](https://img.shields.io/badge/Classic-1.15.8-c39361?style=for-the-badge)<br>
+![Midnight](https://img.shields.io/badge/Midnight-12.0.0-a335ee?style=for-the-badge) ![Retail](https://img.shields.io/badge/Retail-11.2.7-008833?style=for-the-badge) ![Mists](https://img.shields.io/badge/Mists-5.5.3-28ae7e?style=for-the-badge) ![TBC](https://img.shields.io/badge/TBC-2.5.5-62c907?style=for-the-badge) ![Classic](https://img.shields.io/badge/Classic-1.15.8-c39361?style=for-the-badge)<br>
 [![CurseForge](https://img.shields.io/badge/curseforge-download-F16436?style=for-the-badge&logo=curseforge&logoColor=white)](https://www.curseforge.com/wow/addons/krowi-brokers) [![Wago](https://img.shields.io/badge/Wago-Download-c1272d?style=for-the-badge)](https://addons.wago.io/addons/krowi-brokers)<br>
 [![Discord](https://img.shields.io/badge/discord-join-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mdBFQJYeQZ) [![PayPal](https://img.shields.io/badge/paypal-donate-002991.svg?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=9QEDV37APQ6YJ)
 
@@ -6,7 +6,7 @@ A lightweight library for World of Warcraft addon development that simplifies cr
 
 ## Features
 
-### Broker System (`Krowi_Brokers-1.0`)
+### Broker System (`Krowi_Brokers`)
 - **Simple API**: Easy-to-use method for initializing LibDataBroker data objects
 - **Integrated Event Handling**: Built-in event frame management for handling WoW events
 - **OnUpdate Support**: Register custom OnUpdate handlers for frame updates
@@ -15,16 +15,16 @@ A lightweight library for World of Warcraft addon development that simplifies cr
 - **Menu Integration**: Optional menu system initialization support
 - **Tooltip Integration**: Optional tooltip system initialization support
 - **Multiple Handlers**: Support for multiple event handlers on the same event frame
-- **LibStub Support**: Standard LibStub library structure for dependency management
+- **KROWI_LIBMAN Support**: Modern library management through KROWI_LIBMAN system
 
-### ElvUI Integration (`Krowi_Brokers-1.0` - ElvUI Module)
+### ElvUI Integration (`Krowi_Brokers` - ElvUI Module)
 - **Automatic Detection**: Detects ElvUI presence and provides integration options
 - **Automatic Registration**: ElvUI options menu is automatically registered when calling `InitBroker()`
 - **Display Options**: Toggle icon, label, and text visibility for ElvUI DataTexts
 - **Settings Sync**: Integrates with ElvUI's DataText settings system
 - **Auto-Refresh**: Automatically refreshes display when settings change
 
-### Titan Panel Integration (`Krowi_Brokers-1.0` - Titan Module)
+### Titan Panel Integration (`Krowi_Brokers` - Titan Module)
 - **Automatic Detection**: Detects Titan Panel presence and provides integration options
 - **Automatic Registration**: Titan Panel options menu is automatically registered when calling `InitBroker()`
 - **Display Options**: Toggle icon, label, text, and side positioning for Titan Panel plugins
@@ -32,7 +32,7 @@ A lightweight library for World of Warcraft addon development that simplifies cr
 - **Auto-Refresh**: Automatically refreshes display when settings change
 
 ### Localization System
-- **AceLocale-3.0 Integration**: Built-in localization support
+- **KROWI_LIBMAN Integration**: Built-in localization support through KROWI_LIBMAN
 - **Multi-Language Ready**: Framework for adding multiple language translations
 - **CurseForge Integration**: Designed to work with CurseForge localization system
 
@@ -41,7 +41,7 @@ A lightweight library for World of Warcraft addon development that simplifies cr
 ### Basic Broker Setup
 
 ```lua
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 local addonName, addon = ...  -- Get addon namespace
 
 -- Addon must have Metadata table with Title, Version, Icon, and GetDisplayText function
@@ -52,12 +52,12 @@ addon.Metadata = {
 }
 
 -- Required: GetDisplayText function
-function addon.GetDisplayText()
+function addon:GetDisplayText()
     return "Dynamic Text: " .. time()
 end
 
--- Initialize a simple broker (uses global addon variables as of v1.0.3)
-broker:InitBroker(
+-- Initialize a simple broker
+lib:InitBroker(addonName, addon,
     function(frame)                -- OnEnter
         GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
         GameTooltip:AddLine("My Addon")
@@ -78,7 +78,7 @@ broker:InitBroker(
 ### Advanced Example with Event Handling
 
 ```lua
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 local addonName, addon = ...
 
 -- Setup addon metadata
@@ -89,7 +89,7 @@ addon.Metadata = {
 }
 
 -- Required: GetDisplayText function
-function addon.GetDisplayText()
+function addon:GetDisplayText()
     return "Some dynamic text"
 end
 
@@ -98,7 +98,9 @@ addon.Menu = { Init = function() print("Menu initialized") end }
 addon.Tooltip = { Init = function() print("Tooltip initialized") end }
 
 -- Initialize broker with event handling
-broker:InitBroker(
+lib:InitBroker(
+    addonName,
+    addon,
     OnEnterHandler,
     OnLeaveHandler,
     OnClickHandler,
@@ -106,7 +108,7 @@ broker:InitBroker(
 )
 
 -- Register additional events
-broker:RegisterEvents("PLAYER_ENTERING_WORLD", "ZONE_CHANGED_NEW_AREA")
+lib:RegisterEvents("PLAYER_ENTERING_WORLD", "ZONE_CHANGED_NEW_AREA")
 
 -- The broker data object is now available at addon.LDB
 -- Update display text manually
@@ -127,27 +129,27 @@ local function OnEventHandler(event, ...)
 end
 
 -- Register multiple event handlers for the same events
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 
-broker:RegisterOnEvent(function(event, ...)
+lib:RegisterOnEvent(function(event, ...)
     print("Handler 1:", event)
 end)
 
-broker:RegisterOnEvent(function(event, ...)
+lib:RegisterOnEvent(function(event, ...)
     print("Handler 2:", event)
 end)
 
 -- Register the events to listen for
-broker:RegisterEvents("PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED")
+lib:RegisterEvents("PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED")
 ```
 
 ### OnUpdate Handler Implementation
 
 ```lua
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 
 -- Register an OnUpdate handler (no self parameter as of v1.0.3)
-broker:RegisterOnUpdate(function(elapsed)
+lib:RegisterOnUpdate(function(elapsed)
     -- Update logic that runs every frame
     -- elapsed is the time since last update in seconds
 end)
@@ -157,7 +159,7 @@ end)
 
 ```lua
 local addonName, addon = ...
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 
 -- ElvUI integration is automatically set up when you call InitBroker()
 -- The CreateElvUIOptionsMenu function is added to addon.Menu automatically
@@ -181,7 +183,7 @@ end
 
 ```lua
 local addonName, addon = ...
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 
 -- Titan Panel integration is automatically set up when you call InitBroker()
 -- The CreateTitanOptionsMenu function is added to addon.Menu automatically
@@ -203,18 +205,18 @@ end
 
 ## API Reference
 
-### Krowi_Brokers-1.0
+### Krowi_Brokers
 
-#### Creating a Broker Library Instance
+#### Getting the Broker Library Instance
 ```lua
-local broker = LibStub("Krowi_Brokers-1.0")
+local lib = KROWI_LIBMAN:GetLibrary('Krowi_Brokers')
 ```
 
 #### Broker Functions
 
 | Function | Parameters | Description |
 |----------|------------|-------------|
-| `InitBroker(onEnter, onLeave, onClick, onEvent)` | See below | Initializes a LibDataBroker data object with callbacks and event handling |
+| `InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)` | See below | Initializes a LibDataBroker data object with callbacks and event handling |
 | `GetHelperFrame()` | - | Returns the shared helper frame, creating it if it doesn't exist |
 | `RegisterEvents(...)` | `...` (strings) | Registers one or more WoW events to the helper frame |
 | `RegisterOnEvent(handler)` | `handler` (function) | Adds an event handler function that will be called for all registered events |
@@ -224,16 +226,18 @@ local broker = LibStub("Krowi_Brokers-1.0")
 
 #### InitBroker() Parameters
 
-**Note**: As of v1.0.3, `InitBroker()` uses the global `addonName` and `addon` variables from the addon namespace (defined as `local addonName, addon = ...`). The addon object must have:
+**Note**: As of v2.0, `InitBroker()` requires explicit `addonName` and `addon` parameters. The addon object must have:
 - `addon.Metadata.Title` - The addon title
 - `addon.Metadata.Version` - The addon version
 - `addon.Metadata.Icon` - Path to the icon texture file
-- `addon.GetDisplayText()` - Function that returns the current display text
+- `addon:GetDisplayText()` - Method that returns the current display text (uses colon syntax)
 
 It also automatically initializes `addon.Menu` and `addon.Tooltip` if they exist with an `Init()` method.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| `addonName` | string | Yes | The name of your addon |
+| `addon` | table | Yes | The addon namespace table |
 | `onEnter` | function | No | Callback when mouse enters the broker frame. Parameters: `(frame)` |
 | `onLeave` | function | No | Callback when mouse leaves the broker frame. Parameters: `(frame)` |
 | `onClick` | function | No | Callback when broker is clicked. Parameters: `(frame, button)` |
@@ -341,7 +345,7 @@ addon.Menu.CreateTitanOptionsMenu(menuBuilder, menuObj, caller, onRefresh)
 - Frame-based updates with OnUpdate handlers
 
 ## Requirements
-- LibStub
+- KROWI_LIBMAN (Krowi's Library Manager)
 - LibDataBroker-1.1
-- AceLocale-3.0 (for localization)
-- Krowi_MenuBuilder-1.0 (optional, for ElvUI/Titan Panel menu integration)
+- AceLocale-3.0 (for ElvUI/Titan Panel integration localization)
+- Krowi_MenuBuilder (optional, for ElvUI/Titan Panel menu integration)

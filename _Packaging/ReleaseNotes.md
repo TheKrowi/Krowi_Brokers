@@ -1,10 +1,11 @@
-### Changed (1.0.5)
-- Refactored ElvUI integration module: simplified function naming (removed redundant prefixes)
-- Refactored Titan Panel integration module: simplified function naming and improved consistency
-- Titan Panel integration module now also adds a hide button to the options
-- Improved localization caching for both integration modules to avoid repeated lookups
-- Code style improvements: removed semicolons from Lua files for consistency
-
-### Fixed (1.0.5)
-- Fixed integration modules to properly cache both library localization and integration-specific localization
-- Removed incomplete annotation comment from main library file
+### Changed
+- **Breaking Change**: Migrated from LibStub-based library system to KROWI_LIBMAN library manager
+- Renamed main file from `Krowi_Brokers-1.0.lua` to `Krowi_Brokers.lua`
+- Renamed XML file from `Krowi_Brokers-1.0.xml` to `Krowi_Brokers.xml`
+- Updated license headers to simplified copyright notices
+- Refactored localization system:
+  - Removed `Localization/Localization.lua`
+  - Added `Localization/Shared.lua` for centralized locale handling
+  - Updated locale files to use new initialization pattern
+- Updated ElvUI and Titan Panel integration modules to use KROWI_LIBMAN submodule pattern
+- Simplified locale caching in integration modules

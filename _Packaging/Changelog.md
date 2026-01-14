@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.0 - 2026-01-14
+### Changed
+- **Breaking Change**: Migrated from LibStub-based library system to KROWI_LIBMAN library manager
+- Renamed main file from `Krowi_Brokers-1.0.lua` to `Krowi_Brokers.lua`
+- Renamed XML file from `Krowi_Brokers-1.0.xml` to `Krowi_Brokers.xml`
+- Updated license headers to simplified copyright notices
+- Refactored localization system:
+  - Removed `Localization/Localization.lua`
+  - Added `Localization/Shared.lua` for centralized locale handling
+  - Updated locale files to use new initialization pattern
+- Updated ElvUI and Titan Panel integration modules to use KROWI_LIBMAN submodule pattern
+- Simplified locale caching in integration modules
+
 ## 1.0.6 - 2026-01-10
 ### Added
 - Support for WoW 12.0.0 (Midnight)

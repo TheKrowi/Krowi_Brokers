@@ -8,11 +8,11 @@
 local lib = KROWI_LIBMAN:GetCurrentLibrary(true)
 if not lib then	return end
 
-local L = lib.Localization.NewDefaultLocale()
+local L = lib.Localization.NewLocale('ruRU')
 if not L then return end
 
 -- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
 
--- [[ Exported at 2026-01-14 16-39-10 ]] --
-L["ElvUI Options"] = true
-L["Titan Panel Options"] = true
+-- [[ Exported at 2026-01-14 16-39-14 ]] --
+L["ElvUI Options"] = "Настройки ElvUI"
+L["Titan Panel Options"] = "Настройки Titan Panel"
