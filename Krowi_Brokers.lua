@@ -22,12 +22,12 @@ function lib:InitBroker(addonName, addon, onEnter, onLeave, onClick, onEvent)
         addon.Tooltip.Init()
     end
 
-    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(addonName, {
-		type = "data source",
+    local dataObject = LibStub('LibDataBroker-1.1'):NewDataObject(addonName, {
+		type = 'data source',
 		tocname = addonName,
 		icon = addon.Metadata.Icon,
-		text = addon.Metadata.Title .. " " .. addon.Metadata.Version,
-		category = "Information",
+		text = addon.Metadata.Title .. ' ' .. addon.Metadata.Version,
+		category = 'Information',
 		OnEnter = onEnter,
 		OnLeave = onLeave,
 		OnClick = onClick,
@@ -51,7 +51,7 @@ function lib:GetHelperFrame()
 		return self.HelperFrame
 	end
 
-	self.HelperFrame = CreateFrame("Frame", "Krowi_Brokers_HelperFrame")
+	self.HelperFrame = CreateFrame('Frame', 'Krowi_Brokers_HelperFrame')
 	return self.HelperFrame
 end
 
@@ -64,7 +64,7 @@ end
 
 function lib:RegisterEvents(...)
 	local helperFrame = self:GetHelperFrame()
-	for i = 1, select("#", ...) do
+	for i = 1, select('#', ...) do
 		local event = select(i, ...)
 		helperFrame:RegisterEvent(event)
 	end
@@ -73,8 +73,8 @@ end
 function lib:RegisterOnEvent(handler)
 	tinsert(eventFrameOnEventHandlers, handler)
 	local helperFrame = self:GetHelperFrame()
-	if not helperFrame:GetScript("OnEvent") then
-		helperFrame:SetScript("OnEvent", HelperFrameOnEvent)
+	if not helperFrame:GetScript('OnEvent') then
+		helperFrame:SetScript('OnEvent', HelperFrameOnEvent)
 	end
 end
 
@@ -88,7 +88,7 @@ end
 function lib:RegisterOnUpdate(handler)
 	tinsert(onUpdateHandlers, handler)
 	local helperFrame = self:GetHelperFrame()
-	if not helperFrame:GetScript("OnUpdate") then
-		helperFrame:SetScript("OnUpdate", HelperFrameOnUpdate)
+	if not helperFrame:GetScript('OnUpdate') then
+		helperFrame:SetScript('OnUpdate', HelperFrameOnUpdate)
 	end
 end

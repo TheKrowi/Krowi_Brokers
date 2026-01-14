@@ -4,7 +4,7 @@
  -->
 
 <Ui>
-	<Script file="enUS.lua"/>
-    <Script file="deDE.lua" />
+	<Script file='enUS.lua'/>
+    <Script file='deDE.lua' />
     <Script file='Shared.lua' />
 </Ui>

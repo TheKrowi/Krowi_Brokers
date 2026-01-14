@@ -30,7 +30,7 @@ end
 
 local function LoadIntegrationLocale()
 	if not sub.IL then
-		sub.IL = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
+		sub.IL = LibStub('AceLocale-3.0'):GetLocale(TITAN_ID, true)
 	end
 end
 
@@ -43,7 +43,7 @@ local function CreateCheckbox(menuBuilder, addonName, _parent, text, key, onRefr
 		function()
             TitanToggleVar(addonName, key)
 
-            if key == "DisplayOnRightSide" then
+            if key == 'DisplayOnRightSide' then
                 local bar = TitanUtils_GetWhichBar(addonName)
                 if bar then
                     TitanPanel_RemoveButton(addonName)
@@ -69,13 +69,13 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, parent.L["Titan Panel Options"])
-	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL["TITAN_PANEL_MENU_SHOW_ICON"], 'ShowIcon', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 'ShowLabelText', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], 'ShowRegularText', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"], 'DisplayOnRightSide', onRefresh)
+	local titanOptions = menuBuilder:CreateSubmenuButton(menuObj, parent.L['Titan Panel Options'])
+	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL['TITAN_PANEL_MENU_SHOW_ICON'], 'ShowIcon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL['TITAN_PANEL_MENU_SHOW_LABEL_TEXT'], 'ShowLabelText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL['TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT'], 'ShowRegularText', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, titanOptions, sub.IL['TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE'], 'DisplayOnRightSide', onRefresh)
 	menuBuilder:CreateDivider(titanOptions)
-	menuBuilder:CreateButton(titanOptions, sub.IL["TITAN_PANEL_MENU_HIDE"], function()
+	menuBuilder:CreateButton(titanOptions, sub.IL['TITAN_PANEL_MENU_HIDE'], function()
 		TitanPanelRightClickMenu_Hide(addonName)
 	end)
 	menuBuilder:AddChildMenu(menuObj, titanOptions)

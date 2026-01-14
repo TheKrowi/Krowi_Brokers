@@ -42,7 +42,7 @@ end
 
 local function LoadIntegrationLocale()
 	if not sub.IL then
-		C_AddOns.LoadAddOn("ElvUI_Options")
+		C_AddOns.LoadAddOn('ElvUI_Options')
 		sub.IL = select(2, unpack(GetElvUI().Config))
 	end
 end
@@ -78,10 +78,10 @@ local function CreateOptionsMenu(menuBuilder, menuObj, addonName, caller, onRefr
 
 	menuBuilder:CreateDivider(menuObj)
 
-	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, parent.L["ElvUI Options"])
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Icon"], 'icon', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Label"], 'label', onRefresh)
-	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL["Show Text"], 'text', onRefresh)
+	local elvUIOptions = menuBuilder:CreateSubmenuButton(menuObj, parent.L['ElvUI Options'])
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL['Show Icon'], 'icon', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL['Show Label'], 'label', onRefresh)
+	CreateCheckbox(menuBuilder, addonName, elvUIOptions, sub.IL['Show Text'], 'text', onRefresh)
 	menuBuilder:AddChildMenu(menuObj, elvUIOptions)
 end
 
